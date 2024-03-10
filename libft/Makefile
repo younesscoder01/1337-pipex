@@ -27,8 +27,8 @@ $(NAME): $(OBJS)
 
 
 .c.o:
-	$(CC) $(CFLAGS) -c -o $@ $^
-	$(AR) $(NAME) $@
+	@$(CC) $(CFLAGS) -c -o $@ $^
+	@$(AR) $(NAME) $@
 
 bonus: $(OBJS_B)
 

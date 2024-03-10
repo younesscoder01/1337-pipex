@@ -3,19 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:47:18 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/03/09 17:48:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/10 16:56:35 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include <stdio.h>
-# include <unistd.h>
+/*libraries*/
+# include "../libft/libft.h"
 # include <fcntl.h>
+# include <stdio.h>
 # include <sys/wait.h>
-# include "libft/libft.h"
+# include <unistd.h>
+
+/*args*/
+typedef struct s_arg
+{
+	char	*cmd1;
+	char	*cmd2;
+	char	**cmdop1;
+	char	**cmdop2;
+	int		fd[2];
+	int		pid;
+}			t_arg;
 
 #endif

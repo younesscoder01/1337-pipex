@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 14:21:30 by ysahraou          #+#    #+#             */
-/*   Updated: 2023/11/25 16:14:22 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:39:49 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 			*pd++ = *ps++;
 	}
 	else
-	{	
+	{
 		lastpd = (unsigned char *)dest + (n - 1);
 		lastps = (unsigned const char *)src + (n - 1);
 		while (n-- != 0)

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 11:01:24 by ysahraou          #+#    #+#             */
-/*   Updated: 2023/11/24 15:50:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:38:33 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*ft_strnstr(const char *big, const char *little, size_t len)
 	{
 		if (ft_strncmp(little, &big[i], ltlen) == 0)
 			return ((char *)&big[i]);
-	i++;
+		i++;
 	}
 	return (NULL);
 }

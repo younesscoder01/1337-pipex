@@ -6,11 +6,11 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 15:07:00 by ysahraou          #+#    #+#             */
-/*   Updated: 2023/11/29 14:14:42 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:37:49 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "libft.h"
+#include "libft.h"
 
 void	ft_putstr_fd(char *s, int fd)
 {

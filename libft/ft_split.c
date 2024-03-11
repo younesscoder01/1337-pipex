@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/13 14:21:05 by ysahraou          #+#    #+#             */
-/*   Updated: 2023/11/25 15:18:29 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/11 09:37:09 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	word_count(char const *str, char c)
 	result = 1;
 	i = 0;
 	if (str[0] == c)
-			result = 0;
+		result = 0;
 	while (str[i] != '\0')
 	{
 		if (str[i] == c && str[i + 1] != c && str[i + 1] != '\0')

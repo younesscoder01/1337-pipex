@@ -1,4 +1,4 @@
-#CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 CC = cc
 RM = rm -f
 SRC = src/pipex.c

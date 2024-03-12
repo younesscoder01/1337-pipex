@@ -11,33 +11,25 @@ SRC = ./ft_atoi.c ./ft_bzero.c ./ft_calloc.c ./ft_isalnum.c ./ft_isalpha.c \
       ./ft_strrchr.c ./ft_strtrim.c ./ft_substr.c ./ft_tolower.c ./ft_toupper.c \
 
 
-SRC_B = ./ft_lstadd_back_bonus.c ./ft_lstadd_front_bonus.c \
-      ./ft_lstclear_bonus.c ./ft_lstdelone_bonus.c \
-      ./ft_lstiter_bonus.c ./ft_lstlast_bonus.c ./ft_lstmap_bonus.c \
-      ./ft_lstnew_bonus.c ./ft_lstsize_bonus.c
-
 NAME = libft.a
 
 OBJS = $(SRC:.c=.o)
-
-OBJS_B = $(SRC_B:.c=.o)
 
 
 $(NAME): $(OBJS)
 
 
 .c.o:
-	@$(CC) $(CFLAGS) -c -o $@ $^
-	@$(AR) $(NAME) $@
+	$(CC) $(CFLAGS) -c -o $@ $^
+	$(AR) $(NAME) $@
 
-bonus: $(OBJS_B)
 
 all: $(NAME)
 
 clean:
-	@$(RM) $(OBJS) $(OBJS_B)
+	@$(RM) $(OBJS)
 
 fclean: clean
-	@$(RM) $(NAME) $(SO_NAME)
+	@$(RM) $(NAME)
 
 re: fclean all

@@ -25,6 +25,7 @@ int	main(int argc, char *argv[], char *envp[])
 	{
 		ft_putstr_fd("\033[0;31mError: Bad arguments\n", 2);
 		ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
+		exit(0);
 	}
 }
 void	execute(char *cmd, char **env)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysahraou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/12 22:21:05 by ysahraou          #+#    #+#             */
+/*   Updated: 2024/03/12 22:22:56 by ysahraou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/pipex.h"
 
 void	child(char *argv[], char *env[], int p_fd[2]);
@@ -28,6 +40,7 @@ int	main(int argc, char *argv[], char *envp[])
 		exit(0);
 	}
 }
+
 void	execute(char *cmd, char **env)
 {
 	char	**cmd_and_op;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ysahraou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/12 22:23:13 by ysahraou          #+#    #+#             */
+/*   Updated: 2024/03/12 22:24:35 by ysahraou         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/pipex.h"
 
 int	open_file(char *file_name, int in_or_out)
@@ -40,7 +52,6 @@ char	*get_cmd(char **the_paths, char *the_cmd)
 		cmd = ft_strjoin(the_paths[i], "/");
 		temp = cmd;
 		cmd = ft_strjoin(cmd, the_cmd);
-		// printf("%s = ", cmd);
 		if (access(cmd, F_OK | X_OK) == 0)
 		{
 			free_all(the_paths);
@@ -71,7 +82,8 @@ char	*exc_path(char *paths, char *the_cmd)
 
 char	*get_path(char *the_cmd, char **env)
 {
-	char *path;
+	char	*path;
+
 	while (*env)
 	{
 		path = ft_strnstr(*env, "PATH", 4);
@@ -79,7 +91,6 @@ char	*get_path(char *the_cmd, char **env)
 			break ;
 		env++;
 	}
-
 	path = exc_path(path, the_cmd);
 	return (path);
 }

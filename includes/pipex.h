@@ -21,6 +21,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+/*functions declaratio*/
 int open_file(char *file_name, int in_or_out);
 char *get_path(char *the_cmd, char **env);
 void free_all(char **str);

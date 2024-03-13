@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:23:13 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/03/12 22:24:35 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/13 11:48:56 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int	open_file(char *file_name, int in_or_out)
 	else if (in_or_out == 1)
 		ret = open(file_name, O_RDWR | O_CREAT, 0777);
 	if (ret == -1)
+	{
+		ft_putstr_fd("No such file or directory: ", 2);
+		ft_putendl_fd(file_name, 2);
 		exit(0);
+	}
 	return (ret);
 }
 
@@ -40,7 +44,7 @@ void	free_all(char **str)
 	free(str);
 }
 
-char	*get_cmd(char **the_paths, char *the_cmd)
+char	*exc_cmd(char **the_paths, char *the_cmd)
 {
 	char	*cmd;
 	char	*temp;
@@ -65,7 +69,7 @@ char	*get_cmd(char **the_paths, char *the_cmd)
 	return (NULL);
 }
 
-char	*exc_path(char *paths, char *the_cmd)
+char	*get_cmd(char *paths, char *the_cmd)
 {
 	char	*first_part;
 	char	**the_paths;
@@ -77,7 +81,7 @@ char	*exc_path(char *paths, char *the_cmd)
 	first_part = ft_substr(&paths[i + 1], 0, ft_strlen(paths));
 	the_paths = ft_split(first_part, ':');
 	free(first_part);
-	return (get_cmd(the_paths, the_cmd));
+	return (exc_cmd(the_paths, the_cmd));
 }
 
 char	*get_path(char *the_cmd, char **env)
@@ -91,6 +95,6 @@ char	*get_path(char *the_cmd, char **env)
 			break ;
 		env++;
 	}
-	path = exc_path(path, the_cmd);
+	path = get_cmd(path, the_cmd);
 	return (path);
 }

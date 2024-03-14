@@ -30,7 +30,7 @@ static char	*get_shell(char **env)
 	shell_paths = ft_split(shell, '/');
 	while (shell_paths[i])
 	{
-		if (shell_paths[i+1] == NULL)
+		if (shell_paths[i + 1] == NULL)
 			shell = ft_strdup(shell_paths[i]);
 		i++;
 	}
@@ -69,8 +69,8 @@ static void	execute(char *cmd, char **env)
 
 static void	child(char *argv[], char *env[], int p_fd[2])
 {
-	int	fd;
-	char *shell;
+	int		fd;
+	char	*shell;
 
 	free(argv[3]);
 	shell = get_shell(env);
@@ -94,8 +94,8 @@ static void	child(char *argv[], char *env[], int p_fd[2])
 
 static void	parent(char *argv[], char *env[], int p_fd[2])
 {
-	int	fd;
-	char *shell;
+	int		fd;
+	char	*shell;
 
 	free(argv[2]);
 	shell = get_shell(env);

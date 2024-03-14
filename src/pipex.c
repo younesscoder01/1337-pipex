@@ -51,7 +51,7 @@ static void	execute(char *cmd, char **env)
 		path = cmd_and_op[0];
 		if (access(path, F_OK | X_OK) == -1)
 		{
-			ft_putstr_fd("pipex: No such file or directory: ", 2);
+			ft_putstr_fd("zsh: No such file or directory: ", 2);
 			ft_putendl_fd(path, 2);
 			exit(127);
 		}
@@ -60,7 +60,7 @@ static void	execute(char *cmd, char **env)
 		path = get_path(cmd_and_op[0], env);
 	if (execve(path, cmd_and_op, env) == -1)
 	{
-		ft_putstr_fd("pipex: command not found: ", 2);
+		ft_putstr_fd("zsh: command not found: ", 2);
 		ft_putendl_fd(cmd_and_op[0], 2);
 		free_all(cmd_and_op);
 		exit(127);

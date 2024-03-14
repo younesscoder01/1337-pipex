@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:47:18 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/03/13 11:40:19 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/14 13:40:05 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <unistd.h>
 
 /*functions declaratio*/
-int		open_file(char *file_name, int in_or_out);
+int		open_file(char *file_name, int in_or_out, char *shell);
 char	*get_path(char *the_cmd, char **env);
 void	free_all(char **str);
 

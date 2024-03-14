@@ -6,13 +6,13 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:23:13 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/03/13 14:13:59 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/14 13:23:51 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	open_file(char *file_name, int in_or_out)
+int	open_file(char *file_name, int in_or_out, char *shell)
 {
 	int	ret;
 
@@ -23,7 +23,8 @@ int	open_file(char *file_name, int in_or_out)
 		ret = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0777);
 	if (ret == -1)
 	{
-		ft_putstr_fd("No such file or directory: ", 2);
+		ft_putstr_fd(shell, 2);
+		ft_putstr_fd(": no such file or directory: ", 2);
 		ft_putendl_fd(file_name, 2);
 		exit(127);
 	}
@@ -44,7 +45,7 @@ void	free_all(char **str)
 	free(str);
 }
 
-char	*exc_cmd(char **the_paths, char *the_cmd)
+static char	*exc_cmd(char **the_paths, char *the_cmd)
 {
 	char	*cmd;
 	char	*temp;
@@ -69,7 +70,7 @@ char	*exc_cmd(char **the_paths, char *the_cmd)
 	return (the_cmd);
 }
 
-char	*get_cmd(char *paths, char *the_cmd)
+static char	*get_cmd(char *paths, char *the_cmd)
 {
 	char	*first_part;
 	char	**the_paths;
@@ -87,14 +88,19 @@ char	*get_cmd(char *paths, char *the_cmd)
 char	*get_path(char *the_cmd, char **env)
 {
 	char	*path;
+	int		i;
 
-	while (*env)
+	i = 0;
+	path = NULL;
+	while (env[i])
 	{
-		path = ft_strnstr(*env, "PATH", 4);
+		path = ft_strnstr(env[i], "PATH", 4);
 		if (path)
 			break ;
-		env++;
+		i++;
 	}
+	if (path == NULL)
+		return (NULL);
 	path = get_cmd(path, the_cmd);
 	return (path);
 }

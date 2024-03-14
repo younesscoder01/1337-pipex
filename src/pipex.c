@@ -6,42 +6,37 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:21:05 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/03/13 14:14:00 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/14 13:38:52 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	child(char *argv[], char *env[], int p_fd[2]);
-void	parent(char *argv[], char *env[], int p_fd[2]);
-void	execute(char *cmd, char **env);
-
-int	main(int argc, char *argv[], char *envp[])
+static char	*get_shell(char **env)
 {
-	int		p_fd[2];
-	pid_t	pid;
+	char	*shell;
+	char	**shell_paths;
+	int		i;
 
-	if (argc == 5)
+	i = 0;
+	while (env[i])
 	{
-		if (pipe(p_fd) == -1)
-			exit(-1);
-		pid = fork();
-		if (pid == -1)
-			exit(-1);
-		if (!pid)
-			child(argv, envp, p_fd);
-		else
-			parent(argv, envp, p_fd);
+		shell = ft_strnstr(env[i], "SHELL", 5);
+		if (shell)
+			break ;
+		i++;
 	}
-	else
+	shell_paths = ft_split(shell, '/');
+	while (*shell_paths)
 	{
-		ft_putstr_fd("\033[0;31mError: Bad arguments\n", 2);
-		ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <file2>\033[1;0m\n", 1);
-		exit(127);
+		if (*(shell_paths + 1) == NULL)
+			shell = *shell_paths;
+		shell_paths++;
 	}
+	return (shell);
 }
 
-void	execute(char *cmd, char **env)
+static void	execute(char *cmd, char **env)
 {
 	char	**cmd_and_op;
 	char	*path;
@@ -68,24 +63,71 @@ void	execute(char *cmd, char **env)
 	}
 }
 
-void	child(char *argv[], char *env[], int p_fd[2])
+static void	child(char *argv[], char *env[], int p_fd[2])
 {
 	int	fd;
 
-	fd = open_file(argv[1], 0);
+	if (!access(argv[1], F_OK))
+	{
+		if (access(argv[1], R_OK) == -1)
+		{
+			ft_putstr_fd(get_shell(env), 2);
+			ft_putstr_fd(": permission denied: ", 2);
+			ft_putendl_fd(argv[1], 2);
+			exit(1);
+		}
+	}
+	fd = open_file(argv[1], 0, get_shell(env));
 	dup2(fd, 0);
 	dup2(p_fd[1], 1);
 	close(p_fd[0]);
 	execute(argv[2], env);
 }
 
-void	parent(char *argv[], char *env[], int p_fd[2])
+static void	parent(char *argv[], char *env[], int p_fd[2])
 {
 	int	fd;
 
-	fd = open_file(argv[4], 1);
+	if (!access(argv[4], F_OK))
+	{
+		if (access(argv[4], W_OK) == -1)
+		{
+			ft_putstr_fd(get_shell(env), 2);
+			ft_putstr_fd(": permission denied: ", 2);
+			ft_putendl_fd(argv[4], 2);
+			exit(1);
+		}
+	}
+	fd = open_file(argv[4], 1, get_shell(env));
 	dup2(fd, 1);
 	dup2(p_fd[0], 0);
 	close(p_fd[1]);
 	execute(argv[3], env);
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	int		p_fd[2];
+	pid_t	pid;
+
+	argv[2] = ft_strtrim(argv[2], " 	");
+	argv[3] = ft_strtrim(argv[3], " 	");
+	if (argc == 5)
+	{
+		if (pipe(p_fd) == -1)
+			exit(-1);
+		pid = fork();
+		if (pid == -1)
+			exit(-1);
+		if (!pid)
+			child(argv, envp, p_fd);
+		else
+			parent(argv, envp, p_fd);
+	}
+	else
+	{
+		ft_putstr_fd("\033[0;31mError: Bad arguments\n", 2);
+		ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <file2>\033[1;0m\n", 1);
+		exit(127);
+	}
 }

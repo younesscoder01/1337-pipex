@@ -6,13 +6,13 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:23:13 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/03/14 13:23:51 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/03/14 17:20:16 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	open_file(char *file_name, int in_or_out, char *shell)
+int	open_file(char *file_name, int in_or_out, char *shell, char *cmd)
 {
 	int	ret;
 
@@ -26,6 +26,8 @@ int	open_file(char *file_name, int in_or_out, char *shell)
 		ft_putstr_fd(shell, 2);
 		ft_putstr_fd(": no such file or directory: ", 2);
 		ft_putendl_fd(file_name, 2);
+		free(shell);
+		free(cmd);
 		exit(127);
 	}
 	return (ret);

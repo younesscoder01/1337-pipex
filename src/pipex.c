@@ -44,17 +44,18 @@ static void	execute(char *cmd, char **env)
 	char	**cmd_and_op;
 	char	*path;
 
+	if (cmd[0] == '\0')
+	{
+		free(cmd);
+		return (ft_putstr_fd("pipex: command not found: \n", 2));
+	}
 	cmd_and_op = ft_split(cmd, ' ');
 	free(cmd);
 	if (cmd_and_op[0][0] == '/')
 	{
 		path = cmd_and_op[0];
 		if (access(path, F_OK | X_OK) == -1)
-		{
-			ft_putstr_fd("pipex: No such file or directory: ", 2);
-			ft_putendl_fd(path, 2);
-			exit(127);
-		}
+			err(path);
 	}
 	else
 		path = get_path(cmd_and_op[0], env);

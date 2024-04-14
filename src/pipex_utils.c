@@ -28,7 +28,7 @@ int	open_file(char *file_name, int in_or_out, char *shell, char *cmd)
 		ft_putendl_fd(file_name, 2);
 		free(shell);
 		free(cmd);
-		exit(127);
+		exit(1);
 	}
 	return (ret);
 }

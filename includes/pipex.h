@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 17:47:18 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/04/14 13:27:28 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:34:27 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ int		open_file(char *file_name, int in_or_out, char *shell, char *cmd);
 char	*get_path(char *the_cmd, char **env);
 void	free_all(char **str);
 void	err(char	*path);
+void	no_args(char *cmd1, char *cmd2);
 
 #endif

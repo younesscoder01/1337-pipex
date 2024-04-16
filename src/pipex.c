@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:21:05 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/03/14 22:02:21 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/04/16 14:33:06 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	child(char *argv[], char *env[], int p_fd[2])
 	execute(argv[2], env);
 }
 
-static void	parent(char *argv[], char *env[], int p_fd[2])
+static void	child_2(char *argv[], char *env[], int p_fd[2])
 {
 	int		fd;
 	char	*shell;
@@ -122,7 +122,9 @@ int	main(int argc, char *argv[], char *envp[])
 {
 	int		p_fd[2];
 	pid_t	pid;
+	pid_t	pid_2;
 
+	pid_2 = 0;
 	argv[2] = ft_strtrim(argv[2], " 	");
 	argv[3] = ft_strtrim(argv[3], " 	");
 	if (argc == 5)
@@ -130,19 +132,17 @@ int	main(int argc, char *argv[], char *envp[])
 		if (pipe(p_fd) == -1)
 			exit(-1);
 		pid = fork();
-		if (pid == -1)
-			exit(-1);
 		if (!pid)
 			child(argv, envp, p_fd);
 		else
-			parent(argv, envp, p_fd);
-	}
-	else
-	{
-		ft_putstr_fd("\033[0;31mError: Bad arguments\n", 2);
-		ft_putstr_fd("Ex: ./pipex <file1> <cmd1> <cmd2> <file2>\033[1;0m\n", 1);
+			pid_2 = fork();
+		if (!pid_2)
+			child_2(argv, envp, p_fd);
+		waitpid(pid, NULL, 0);
+		waitpid(pid_2, NULL, 0);
 		free(argv[2]);
 		free(argv[3]);
-		exit(127);
 	}
+	else
+		no_args(argv[2], argv[3]);
 }

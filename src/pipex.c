@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:21:05 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/04/16 14:33:06 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/04/16 18:34:12 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,8 @@ static void	execute(char *cmd, char **env)
 	char	*path;
 
 	if (cmd[0] == '\0')
-	{
-		free(cmd);
 		return (ft_putstr_fd("pipex: command not found: \n", 2));
-	}
 	cmd_and_op = ft_split(cmd, ' ');
-	free(cmd);
 	if (cmd_and_op[0][0] == '/')
 	{
 		path = cmd_and_op[0];
@@ -73,7 +69,6 @@ static void	child(char *argv[], char *env[], int p_fd[2])
 	int		fd;
 	char	*shell;
 
-	free(argv[3]);
 	shell = get_shell(env);
 	if (!access(argv[1], F_OK))
 	{
@@ -85,10 +80,12 @@ static void	child(char *argv[], char *env[], int p_fd[2])
 			exit(1);
 		}
 	}
-	fd = open_file(argv[1], 0, shell, argv[2]);
+	fd = open_file(argv[1], 0, shell);
 	dup2(fd, 0);
+	close(fd);
 	dup2(p_fd[1], 1);
 	close(p_fd[0]);
+	close(p_fd[1]);
 	free(shell);
 	execute(argv[2], env);
 }
@@ -98,7 +95,6 @@ static void	child_2(char *argv[], char *env[], int p_fd[2])
 	int		fd;
 	char	*shell;
 
-	free(argv[2]);
 	shell = get_shell(env);
 	if (!access(argv[4], F_OK))
 	{
@@ -110,10 +106,12 @@ static void	child_2(char *argv[], char *env[], int p_fd[2])
 			exit(1);
 		}
 	}
-	fd = open_file(argv[4], 1, shell, argv[3]);
+	fd = open_file(argv[4], 1, shell);
 	dup2(fd, 1);
+	close(fd);
 	dup2(p_fd[0], 0);
 	close(p_fd[1]);
+	close(p_fd[0]);
 	free(shell);
 	execute(argv[3], env);
 }
@@ -125,8 +123,6 @@ int	main(int argc, char *argv[], char *envp[])
 	pid_t	pid_2;
 
 	pid_2 = 0;
-	argv[2] = ft_strtrim(argv[2], " 	");
-	argv[3] = ft_strtrim(argv[3], " 	");
 	if (argc == 5)
 	{
 		if (pipe(p_fd) == -1)
@@ -138,10 +134,10 @@ int	main(int argc, char *argv[], char *envp[])
 			pid_2 = fork();
 		if (!pid_2)
 			child_2(argv, envp, p_fd);
+		close(p_fd[0]);
+		close(p_fd[1]);
 		waitpid(pid, NULL, 0);
 		waitpid(pid_2, NULL, 0);
-		free(argv[2]);
-		free(argv[3]);
 	}
 	else
 		no_args(argv[2], argv[3]);

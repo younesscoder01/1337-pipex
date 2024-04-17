@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:21:05 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/04/17 13:17:02 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/04/17 14:28:09 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ static void	child(char *argv[], char *env[], int p_fd[2])
 	dup2(fd, 0);
 	close(fd);
 	dup2(p_fd[1], 1);
-	close(p_fd[0]);
-	close(p_fd[1]);
+	close_pipes(p_fd[0], p_fd[1]);
 	free(shell);
 	execute(argv[2], env);
 }
@@ -115,8 +114,7 @@ static void	child_2(char *argv[], char *env[], int p_fd[2])
 	dup2(fd, 1);
 	close(fd);
 	dup2(p_fd[0], 0);
-	close(p_fd[1]);
-	close(p_fd[0]);
+	close_pipes(p_fd[0], p_fd[1]);
 	free(shell);
 	execute(argv[3], env);
 }
@@ -141,11 +139,10 @@ int	main(int argc, char *argv[], char *envp[])
 			pid_2 = fork();
 		if (!pid_2)
 			child_2(argv, envp, p_fd);
-		close(p_fd[0]);
-		close(p_fd[1]);
+		close_pipes(p_fd[0], p_fd[1]);
 		waitpid(pid, NULL, 0);
 		waitpid(pid_2, &status, 0);
 		exit(status >> 8);
 	}
-	no_args(argv[2], argv[3]);
+	no_args();
 }

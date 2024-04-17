@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:21:05 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/04/17 11:56:29 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:17:02 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	main(int argc, char *argv[], char *envp[])
 	int		p_fd[2];
 	pid_t	pid;
 	pid_t	pid_2;
-	int status;
+	int		status;
 
 	status = 0;
 	pid_2 = 0;
@@ -147,6 +147,5 @@ int	main(int argc, char *argv[], char *envp[])
 		waitpid(pid_2, &status, 0);
 		exit(status >> 8);
 	}
-	else
-		no_args(argv[2], argv[3]);
+	no_args(argv[2], argv[3]);
 }

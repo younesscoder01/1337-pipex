@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:21:05 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/04/16 18:34:12 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:56:29 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,12 @@ static void	execute(char *cmd, char **env)
 	char	*path;
 
 	if (cmd[0] == '\0')
-		return (ft_putstr_fd("pipex: command not found: \n", 2));
+	{
+		ft_putstr_fd("pipex: command not found: \n", 2);
+		exit(127);
+	}
 	cmd_and_op = ft_split(cmd, ' ');
-	if (cmd_and_op[0][0] == '/')
+	if (cmd_and_op[0][0] == '/' || cmd_and_op[0][0] == '.' )
 	{
 		path = cmd_and_op[0];
 		if (access(path, F_OK | X_OK) == -1)
@@ -77,6 +80,7 @@ static void	child(char *argv[], char *env[], int p_fd[2])
 			ft_putstr_fd(shell, 2);
 			ft_putstr_fd(": permission denied: ", 2);
 			ft_putendl_fd(argv[1], 2);
+			free(shell);
 			exit(1);
 		}
 	}
@@ -103,6 +107,7 @@ static void	child_2(char *argv[], char *env[], int p_fd[2])
 			ft_putstr_fd(shell, 2);
 			ft_putstr_fd(": permission denied: ", 2);
 			ft_putendl_fd(argv[4], 2);
+			free(shell);
 			exit(1);
 		}
 	}
@@ -121,7 +126,9 @@ int	main(int argc, char *argv[], char *envp[])
 	int		p_fd[2];
 	pid_t	pid;
 	pid_t	pid_2;
+	int status;
 
+	status = 0;
 	pid_2 = 0;
 	if (argc == 5)
 	{
@@ -137,7 +144,8 @@ int	main(int argc, char *argv[], char *envp[])
 		close(p_fd[0]);
 		close(p_fd[1]);
 		waitpid(pid, NULL, 0);
-		waitpid(pid_2, NULL, 0);
+		waitpid(pid_2, &status, 0);
+		exit(status >> 8);
 	}
 	else
 		no_args(argv[2], argv[3]);

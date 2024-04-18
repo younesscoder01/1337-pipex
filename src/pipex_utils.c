@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 22:23:13 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/04/16 18:22:30 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/04/18 16:14:24 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	open_file(char *file_name, int in_or_out, char *shell)
 	if (in_or_out == 0)
 		ret = open(file_name, O_RDONLY);
 	else if (in_or_out == 1)
-		ret = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0777);
+		ret = open(file_name, O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (ret == -1)
 	{
 		ft_putstr_fd(shell, 2);
